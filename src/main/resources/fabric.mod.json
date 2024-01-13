@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "fctweaks",
+  "version": "${version}",
+  "name": "Forest Craft Tweaks",
+  "description": "Tweaks for Forest Craft server",
+  "authors": ["ruattd"],
+  "contact": {
+    "repo": "https://github.com/ruattd/fctweaks",
+    "issues": "https://github.com/ruattd/fctweaks/issues"
+  },
+  "license": "GPL-3.0",
+  "environment": "server",
+  "entrypoints": {
+    "main": ["io.github.ruattd.fc.tweaks.ForestCraftTweaks"]
+  },
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric": "*",
+    "minecraft": "${minecraft_version}",
+    "carpet": ">=1.4.112"
+  }
+}

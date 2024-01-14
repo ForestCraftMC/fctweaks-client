@@ -23,19 +23,18 @@ public final class Commands {
     private static final HashSet<EntityPlayerMPFake> fakePlayerSet = new HashSet<>();
 
     static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess ignored1, CommandManager.RegistrationEnvironment ignored2) {
-        var string = StringArgumentType.string();
         dispatcher.register(literal("afk")
                 .then(literal("spawn")
                         .requires(ServerCommandSource::isExecutedByPlayer)
-                        .then(argument("name", string).executes(context -> afkFakePlayer(context, 1)))
+                        .then(argument("name", StringArgumentType.word()).executes(context -> afkFakePlayer(context, 1)))
                 )
                 .then(literal("remove")
-                        .then(argument("name", string)
+                        .then(argument("name", StringArgumentType.word())
                                 .suggests((context, builder) -> {
-                                    for (var i : fakePlayerSet.stream().sorted().toList()) {
-                                        var name = i.getName().getString().substring(4);
+                                    fakePlayerSet.forEach(player -> {
+                                        var name = player.getEntityName().substring(4);
                                         builder.suggest(name);
-                                    }
+                                    });
                                     return builder.buildFuture();
                                 })
                                 .executes(context -> afkFakePlayer(context, 2))

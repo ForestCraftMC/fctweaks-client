@@ -13,12 +13,12 @@ public final class ForestCraftTweaks implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        CommandRegistrationCallback.EVENT.register(Commands::register);
+        CommandRegistrationCallback.EVENT.register(CommandAfk::register);
         ServerLifecycleEvents.SERVER_STARTING.register(server -> ForestCraftTweaks.server = server);
         var webServer = Javalin.create();
         new Thread(() -> webServer
-                .get("/", HttpServer::root)
-                .get("/ping", HttpServer::ping)
+                .get("/", Http::handle)
+                .get("/ping", HttpPing::handle)
                 .start(800)
         ).start();
     }

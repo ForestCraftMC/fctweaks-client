@@ -17,7 +17,7 @@ import java.util.Locale;
 
 import static net.minecraft.server.command.CommandManager.*;
 
-public final class Commands {
+public final class CommandAfk {
     private static final int MAX_FAKE_PLAYERS = 10;
 
     private static final HashSet<EntityPlayerMPFake> fakePlayerSet = new HashSet<>();

@@ -7,12 +7,8 @@ import net.minecraft.server.MinecraftServer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HttpServer {
-    static void root(Context context) {
-        //TODO website
-    }
-
-    static void ping(Context context) {
+public class HttpPing {
+    static void handle(Context context) {
         var server = ForestCraftTweaks.getServer();
         if (server == null) {
             context.status(HttpStatus.NO_CONTENT);

@@ -1,5 +1,6 @@
 plugins {
-    id 'fabric-loom' version '1.2-SNAPSHOT'
+    id "fabric-loom" version "1.2-SNAPSHOT"
+    id "io.freefair.lombok" version "8.4"
 }
 
 version = project.mod_version
@@ -27,6 +28,10 @@ dependencies {
 
     // Carpet Mod
     modImplementation "carpet:fabric-carpet:${project.carpet_version}"
+
+    def javalin = "io.javalin:javalin:5.6.3"
+    implementation javalin
+    include javalin
 }
 
 processResources {

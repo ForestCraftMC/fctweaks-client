@@ -1,6 +1,7 @@
 plugins {
     id "fabric-loom" version "1.2-SNAPSHOT"
     id "io.freefair.lombok" version "8.4"
+    id "com.github.johnrengelman.shadow" version "8.1.1"
 }
 
 version = project.mod_version
@@ -29,15 +30,8 @@ dependencies {
     // Carpet Mod
     modImplementation "carpet:fabric-carpet:${project.carpet_version}"
 
-    def javalin_version = "5.6.3"
-    def deps = [
-            "io.javalin:javalin:$javalin_version",
-            "io.javalin.community.ssl:ssl-plugin:$javalin_version"
-    ]
-    deps.forEach {
-        implementation it
-        include it
-    }
+    implementation shadow("io.javalin:javalin:5.6.3")
+    implementation shadow("io.javalin.community.ssl:ssl-plugin:5.6.3")
 }
 
 processResources {
@@ -81,4 +75,17 @@ jar {
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
     }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadow]
+    archiveClassifier.set("shadow")
+    minimize()
+    from("LICENSE") {
+        rename { "${it}_${project.archivesBaseName}"}
+    }
+}
+
+remapJar {
+    dependsOn shadowJar
 }

@@ -1,0 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono&family=Noto+Sans+SC&display=swap');
+p {
+    font-family: "Noto Sans Mono", monospace, "Noto Sans SC", sans-serif;
+}

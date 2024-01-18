@@ -30,8 +30,8 @@ dependencies {
     // Carpet Mod
     modImplementation "carpet:fabric-carpet:${project.carpet_version}"
 
-    implementation shadow("io.javalin:javalin:5.6.3")
-    implementation shadow("io.javalin.community.ssl:ssl-plugin:5.6.3")
+    implementation shadow("io.projectreactor.netty:reactor-netty-core:1.1.15")
+    implementation shadow("io.projectreactor.netty:reactor-netty-http:1.1.15")
 }
 
 processResources {
@@ -72,15 +72,12 @@ java {
 }
 
 jar {
-    from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}"}
-    }
+    archiveClassifier.set("thin")
 }
 
 shadowJar {
     configurations = [project.configurations.shadow]
     archiveClassifier.set("shadow")
-    minimize()
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
     }
@@ -88,4 +85,5 @@ shadowJar {
 
 remapJar {
     dependsOn shadowJar
+    input = shadowJar.archivePath
 }

@@ -1,27 +1,38 @@
 package io.github.ruattd.fc.tweaks;
 
-import io.javalin.http.Context;
-import io.javalin.http.HttpStatus;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import net.minecraft.server.MinecraftServer;
+import org.reactivestreams.Publisher;
+import reactor.core.publisher.Mono;
+import reactor.netty.http.server.HttpServerRequest;
+import reactor.netty.http.server.HttpServerResponse;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HttpPing {
-    static void handle(Context context) {
+    static Publisher<Void> route(HttpServerRequest ignored, HttpServerResponse response) {
+        response.addHeader("Content-Type", "text/html;charset=utf-8");
         var server = ForestCraftTweaks.getServer();
+        String returnContent;
         if (server == null) {
-            context.status(HttpStatus.NO_CONTENT);
-            context.result("服务器正在启动中");
+            response.status(HttpResponseStatus.NO_CONTENT);
+            returnContent = Http.withH5("服务器正在启动中");
         } else {
             var info = ServerInfo.of(server);
             var playerCount = "在线玩家: " + info.onlinePlayerCount + '/' + info.maxPlayerCount;
             var bosses = new StringBuilder("进行中的 BOSS 进度: ");
-            info.bosses.forEach(boss -> bosses.append("\n  - ").append(boss));
-            var result = playerCount + '\n' + bosses;
-            context.status(HttpStatus.OK);
-            context.result(result);
+            if (info.bosses.isEmpty()) {
+                bosses.append("无");
+            } else {
+                info.bosses.forEach(boss -> bosses.append("<br/>  - ").append(boss));
+            }
+            var result = "Forest Craft 冬季特别版<br/>" + playerCount + "<br/>" + bosses;
+            response.status(HttpResponseStatus.OK);
+            returnContent = Http.withH5(result);
         }
+        return response.sendString(Mono.just(returnContent));
     }
 
     record ServerInfo(

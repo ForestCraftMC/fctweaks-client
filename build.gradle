@@ -29,9 +29,15 @@ dependencies {
     // Carpet Mod
     modImplementation "carpet:fabric-carpet:${project.carpet_version}"
 
-    def javalin = "io.javalin:javalin:5.6.3"
-    implementation javalin
-    include javalin
+    def javalin_version = "5.6.3"
+    def deps = [
+            "io.javalin:javalin:$javalin_version",
+            "io.javalin.community.ssl:ssl-plugin:$javalin_version"
+    ]
+    deps.forEach {
+        implementation it
+        include it
+    }
 }
 
 processResources {

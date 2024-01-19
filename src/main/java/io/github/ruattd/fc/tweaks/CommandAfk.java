@@ -71,16 +71,20 @@ public final class CommandAfk {
             switch (operation) {
                 case 1 -> {
                     if (fakePlayerSet.size() <= MAX_FAKE_PLAYERS) {
-                        if (playerManager.getPlayer(name) == null) {
-                            var fakePlayer = EntityPlayerMPFake.createFake(
-                                    name, server, sourcePlayer.getPos(),
-                                    sourcePlayer.getYaw(), sourcePlayer.getPitch(),
-                                    sourcePlayer.getWorld().getRegistryKey(),
-                                    GameMode.CREATIVE, false);
-                            fakePlayerSet.add(fakePlayer);
-                            source.sendMessage(Text.of("成功生成假玩家"));
+                        if (name.length() <= 16) {
+                            if (playerManager.getPlayer(name) == null) {
+                                var fakePlayer = EntityPlayerMPFake.createFake(
+                                        name, server, sourcePlayer.getPos(),
+                                        sourcePlayer.getYaw(), sourcePlayer.getPitch(),
+                                        sourcePlayer.getWorld().getRegistryKey(),
+                                        GameMode.CREATIVE, false);
+                                fakePlayerSet.add(fakePlayer);
+                                source.sendMessage(Text.of("成功生成假玩家"));
+                            } else {
+                                source.sendError(Text.of("指定的假玩家已存在"));
+                            }
                         } else {
-                            source.sendError(Text.of("指定的假玩家已存在"));
+                            source.sendError(Text.of("名字过长 (最长 12 字符)"));
                         }
                     } else {
                         source.sendError(Text.of("假玩家数量超出上限"));

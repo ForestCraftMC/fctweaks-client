@@ -10,7 +10,7 @@
     "issues": "https://github.com/ruattd/fctweaks/issues"
   },
   "license": "GPL-3.0",
-  "environment": "server",
+  "environment": "*",
   "entrypoints": {
     "main": ["io.github.ruattd.fc.tweaks.ForestCraftTweaks"]
   },

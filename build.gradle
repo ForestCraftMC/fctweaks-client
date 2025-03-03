@@ -29,9 +29,6 @@ dependencies {
 
     // Carpet Mod
     modImplementation "carpet:fabric-carpet:${project.carpet_version}"
-
-    implementation shadow("io.projectreactor.netty:reactor-netty-core:1.1.15")
-    implementation shadow("io.projectreactor.netty:reactor-netty-http:1.1.15")
 }
 
 processResources {

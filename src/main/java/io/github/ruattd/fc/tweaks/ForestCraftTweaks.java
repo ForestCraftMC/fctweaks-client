@@ -18,16 +18,16 @@ public final class ForestCraftTweaks implements ModInitializer {
     public void onInitialize() {
         CommandRegistrationCallback.EVENT.register(CommandAfk::register);
         ServerLifecycleEvents.SERVER_STARTED.register(server -> ForestCraftTweaks.server = server);
-        var cert = new File("/etc/letsencrypt/live/fc.nijika.in/fullchain.pem");
-        var key = new File("/etc/letsencrypt/live/fc.nijika.in/privkey.pem");
+//        var cert = new File("/etc/letsencrypt/live/fc.nijika.in/fullchain.pem");
+//        var key = new File("/etc/letsencrypt/live/fc.nijika.in/privkey.pem");
         var httpServer = HttpServer.create();
-        Runnable r = () -> httpServer.port(443)
+        Runnable r = () -> httpServer.port(80)
                 .route(routes -> {
                     routes.get("/style.css", HttpCss::route);
                     routes.get("/ping", HttpPing::route);
                     routes.get("/", Http::route);
                 })
-                .secure(spec -> spec.sslContext(Http11SslContextSpec.forServer(cert, key)))
+//                .secure(spec -> spec.sslContext(Http11SslContextSpec.forServer(cert, key)))
                 .bindNow();
         new Thread(r, "Status server").start();
     }
